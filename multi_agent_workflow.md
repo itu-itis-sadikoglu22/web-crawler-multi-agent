@@ -191,3 +191,34 @@ These files describe each agent’s role, scope, and expected output more direct
 ## Conclusion
 
 This project demonstrates a multi-agent development process in which multiple AI agents contributed specialized design recommendations for a single-node web crawler and search system. The final codebase is not itself an autonomous multi-agent runtime, but the development workflow clearly reflects multi-agent collaboration, division of responsibilities, iterative review, and human-led integration.
+
+## Example Agent Prompts
+
+The following are representative examples of the prompts used to guide each agent during development.
+
+### Architect Agent Prompt
+Design the overall architecture for a single-node web crawler and search system. Focus on module boundaries, crawl/index/search interaction, concurrency model, and back pressure. Prefer simple, language-native implementation strategies over heavy external libraries.
+
+### Crawler Agent Prompt
+Design the crawling workflow for a system that starts from an origin URL and crawls to a maximum depth `k`. Ensure the same page is not crawled twice within a crawl job. Propose a worker model, queue behavior, and duplicate-prevention strategy.
+
+### Search Agent Prompt
+Design a simple local search system for indexed HTML pages. Define tokenization, inverted index structure, and a reasonable relevance approach. Ensure search can reflect newly indexed results while crawling is still active.
+
+### Storage Agent Prompt
+Design the persistence model for a localhost crawler using SQLite. Propose tables for crawl jobs, frontier, pages, discoveries, and inverted index data. Consider concurrent reads and writes and possible resume support.
+
+### Reviewer Agent Prompt
+Review the combined design proposed by the other agents. Identify inconsistencies, hidden risks, over-complexity, and missing assumptions. Recommend changes that improve correctness and maintainability while keeping the solution scoped for a single-machine assignment.
+
+## How Agent Outputs Were Evaluated
+
+Agent outputs were not accepted automatically. They were evaluated using the following criteria:
+- correctness with respect to the assignment requirements
+- simplicity and maintainability
+- consistency with other agent outputs
+- suitability for a single-machine localhost system
+- ability to support search during active indexing
+- limited reliance on non-native libraries
+
+Where agents proposed different approaches, the human developer selected the final option based on implementation clarity, assignment fit, and architectural consistency.

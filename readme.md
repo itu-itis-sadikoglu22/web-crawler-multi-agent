@@ -34,7 +34,8 @@ Where:
 - `relevant_url` is the matched page
 - `origin_url` is the crawl origin from which the page was discovered
 - `depth` is the number of hops from that origin
-
+ 
+ Search can also be run while indexing is active. In this implementation, pages are written to SQLite and added to the inverted index incrementally as they are processed. Because search reads directly from the same local database, a separate CLI invocation can return newly discovered results without waiting for the full crawl to complete.
 ## Multi-agent development workflow
 
 This project was created using a structured multi-agent workflow during development.
