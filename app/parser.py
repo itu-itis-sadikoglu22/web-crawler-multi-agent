@@ -39,6 +39,7 @@ def parse_html(base_url, html):
     parser = SimpleHTMLParser(base_url)
     parser.feed(html)
 
+
     return {
         "title": parser.title,
         "body": " ".join(parser.text_parts),

@@ -182,3 +182,9 @@ class Storage:
                 "SELECT COUNT(*) FROM frontier WHERE status='failed'"
             ).fetchone()[0],
         }
+
+    def get_active_jobs(self):
+        conn = self._get_conn()
+        return conn.execute(
+            "SELECT * FROM crawl_jobs WHERE status='active'"
+        ).fetchall()

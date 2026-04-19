@@ -147,3 +147,26 @@ readme.md
 recommendation.md
 multi_agent_workflow.md
 agent description files under /agents
+
+### Resume interrupted crawl jobs
+ONEMLI 
+The system includes basic resume support.
+
+If an indexing job is interrupted, unfinished crawl jobs can be resumed using:
+
+```bash
+python -m app.main resume
+
+
+
+Kaydet.
+
+---
+
+## 3) Final smoke test
+
+```powershell
+python -m app.main index https://example.com 1 --watch
+python -m app.main search example
+python -m app.main status
+python -m app.main resume

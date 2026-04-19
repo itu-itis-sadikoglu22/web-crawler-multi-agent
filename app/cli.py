@@ -76,6 +76,27 @@ def handle_status(args):
     storage = Storage()
     print_status(storage)
 
+def handle_resume(args):
+    storage = Storage()
+    crawler = Crawler(storage)
+
+    crawler.resume_jobs()
+
+    print("Resumed active jobs...")
+
+    try:
+        while True:
+            print_status(storage, crawler)
+
+            rt = crawler.runtime_status()
+            if crawler.task_queue.unfinished_tasks == 0 and rt["active_workers"] == 0:
+                break
+
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("Stopped.")
+
+    print("Resume complete.")
 
 def build_parser():
     parser = argparse.ArgumentParser(description="Multi-agent web crawler CLI")
@@ -96,6 +117,9 @@ def build_parser():
     p_status = sub.add_parser("status", help="Show system status")
     p_status.set_defaults(func=handle_status)
 
+    p_resume = sub.add_parser("resume", help="Resume unfinished jobs")
+    p_resume.set_defaults(func=handle_resume)
+    
     return parser
 
 
@@ -103,3 +127,25 @@ def main():
     parser = build_parser()
     args = parser.parse_args()
     args.func(args)
+
+def handle_resume(args):
+    storage = Storage()
+    crawler = Crawler(storage)
+
+    crawler.resume_jobs()
+
+    print("Resumed active jobs...")
+
+    try:
+        while True:
+            print_status(storage, crawler)
+
+            rt = crawler.runtime_status()
+            if crawler.task_queue.unfinished_tasks == 0 and rt["active_workers"] == 0:
+                break
+
+            time.sleep(1)
+    except KeyboardInterrupt:
+        print("Stopped.")
+
+    print("Resume complete.")

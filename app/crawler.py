@@ -120,6 +120,31 @@ class Crawler:
 
         self.storage.mark_done(frontier_id)
 
+    def resume_jobs(self):
+        jobs = self.storage.get_active_jobs()
+
+        for job in jobs:
+            job_id = job["job_id"]
+
+            if job_id not in self.visited:
+                self.visited[job_id] = set()
+
+            pending = self.storage.get_pending(job_id)
+
+            for row in pending:
+                url = row["url"]
+                depth = row["depth"]
+
+                self.visited[job_id].add(url)
+                self.storage.mark_in_progress(row["id"])
+
+                self.task_queue.put(
+                    (row["id"], job_id, url, job["origin_url"], depth)
+                )
+
+        if jobs:
+            self._start_workers()
+
     def wait_until_done(self, job_id=None):
         self.task_queue.join()
         if job_id is not None:
